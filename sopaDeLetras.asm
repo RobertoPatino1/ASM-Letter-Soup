@@ -95,6 +95,17 @@ ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalid
     jmp ingresoCategoria    ;Volvemos a pedir ingreso
     
     
+generarNumeroAleatorio: 
+    mov ah,0h   ;Genera una interrupcion para obtener la hora del sistema
+    int 1ah     ;Se almacenan el total de tictacs del reloj en dx
+    mov ax,dx
+    mov dx,0
+    mov bx,2
+    div bx
+    cmp ah,0
+    ;TODO: FINALIZAR Y AGG VALIDACIONES 
+    
+
     
 iniciarCategoriaMundial:
 
