@@ -1,7 +1,7 @@
 name "Sopa de letras"
 .model small
 .data
-seleccion1 db ?
+seleccionCategoria db ?
 msgInicio db '-----Bienvenido al juego: Sopa de letras----- $'
 msgSeleccion1 db 'Selecciona el numero de una categoria para generar la sopa de letras: $'
 msgSeleccion2 db '1. Equipos clasificados al mundial de futbol 2022 $'
@@ -45,6 +45,19 @@ iniciarJuego:
     int 21h            
     ;Mensaje de seleccion 3
     lea dx,msgSeleccion3
-    int 21h        
+    int 21h 
+    ;Salto de linea        
+    lea dx, salto        
+    int 21h 
+    int 21h
+    ;Mensaje de seleccion 4
+    lea dx,msgSeleccion4
+    int 21h                
     
+    
+    ;Capturando datos ingresados por el usuario
+    mov ah, 01h         ;funcion para captura de dato
+    int 21h             ;interrupcion para captura de dato (ASCCI), se almacena en al
+    sub al, 30h         ;convertir codigo ASCII capturado al valor ingresado por el usuario
+    mov seleccionCategoria, al     
     
