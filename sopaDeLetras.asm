@@ -158,13 +158,21 @@ generarSopaDeportes2:
               
 ;TODO: Agregar validaciones extras para ver si el usuario ingresa una palabra correcta            
 iniciarCategoriaMundial:
-         jmp ingresoRespuesta
+    ;LIMPIEZA DE LA CONSOLA
+    mov ax, 3
+    int 10h
+    ;----------------------
+    jmp ingresoRespuesta
 
 
 
 
-iniciarCategoriaDeportes:
-
+iniciarCategoriaDeportes: 
+    ;LIMPIEZA DE LA CONSOLA
+    mov ax, 3
+    int 10h
+    ;----------------------
+    jmp ingresoRespuesta    ;Crear otra rutina para el ingreso de deportes???
 
 
 ;TODO: Permitir que se ingrese una cadena de caracteres, no un solo caracter
@@ -202,4 +210,5 @@ ingresoRespuesta:
 
        
 
-    
+
+
