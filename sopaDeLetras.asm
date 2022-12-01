@@ -12,8 +12,9 @@ msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingre
 
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
 msgContinuar db 'Deseas continuar jugando? (1=Si/0=No) $'
-
-
+msgRespuesta db 'Ingresa tu respuesta: $'
+respuesta db ?
+randomNumber db ?
 ;TODO:
 ;Agregar variables para otros mensajes y captura de datos ingresados por el usuario
 
@@ -103,19 +104,18 @@ ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalid
 generarNumeroAleatorioFutbol: 
    MOV AH, 00h  ; interrupts to get system time        
    INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
-
    mov  ax, dx
    xor  dx, dx
    mov  cx, 2    
    div  cx       ; dx contiene el numero aleatorio entre 0 y 1
    cmp dx,0
+   mov randomNumber,dl
    jz generarSopaMundial1
    jnz generarSopaMundial2  
    
 generarNumeroAleatorioDeportes: 
    MOV AH, 00h  ; interrupts to get system time        
    INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
-
    mov  ax, dx
    xor  dx, dx
    mov  cx, 2    
@@ -153,10 +153,28 @@ generarSopaDeportes2:
               
               
               
-              
+;TODO: Agregar validaciones extras para ver si el usuario ingresa una palabra correcta            
 iniciarCategoriaMundial:
+         jmp ingresoRespuesta
 
 
 
 
 iniciarCategoriaDeportes:
+
+
+
+;TODO: Permitir que se ingrese una cadena de caracteres, no un solo caracter
+ingresoRespuesta:
+    mov ah,09h
+    lea dx,msgRespuesta
+    int 21h
+    ;Capturando datos ingresados por el usuario
+    mov ah, 01h         ;funcion para captura de dato
+    int 21h             ;interrupcion para captura de dato (ASCCI), se almacena en al
+    sub al, 30h         ;convertir codigo ASCII capturado al valor ingresado por el usuario
+    mov respuesta, al
+    ;Salto de linea
+    mov ah,09h        
+    lea dx, salto        
+    int 21h
