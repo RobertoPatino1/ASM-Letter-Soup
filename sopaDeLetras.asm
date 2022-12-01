@@ -75,10 +75,10 @@ ingresoCategoria:   ;Rutina que permite al usuario seleccionar una categoria par
 
 validarIngresoCategoria:    ;Rutina que valida que el numero ingresado para la categoria sea valido
     cmp seleccionCategoria,1
-    jz iniciarCategoriaMundial  ;Se selecciono Equipos de Futbol
+    jz generarNumeroAleatorioFutbol  ;Se selecciono Equipos de Futbol
     
     cmp seleccionCategoria,2
-    jz iniciarCategoriaDeportes ;Se selecciono Deportes
+    jz generarNumeroAleatorioDeportes ;Se selecciono Deportes
     
     jnz ingresoCategoriaErroneo ;Se ingreso una opcion no valida
     
@@ -94,20 +94,68 @@ ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalid
     int 21h
     jmp ingresoCategoria    ;Volvemos a pedir ingreso
     
-    
-generarNumeroAleatorio: 
-    mov ah,0h   ;Genera una interrupcion para obtener la hora del sistema
-    int 1ah     ;Se almacenan el total de tictacs del reloj en dx
-    mov ax,dx
-    mov dx,0
-    mov bx,2
-    div bx
-    cmp ah,0
-    ;TODO: FINALIZAR Y AGG VALIDACIONES 
-    
 
+
+ 
+ 
+ 
+;En estas rutinas, el 0 representa la primera opcion, el 1 la segunda    
+generarNumeroAleatorioFutbol: 
+   MOV AH, 00h  ; interrupts to get system time        
+   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+
+   mov  ax, dx
+   xor  dx, dx
+   mov  cx, 2    
+   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
+   cmp dx,0
+   jz generarSopaMundial1
+   jnz generarSopaMundial2  
+   
+generarNumeroAleatorioDeportes: 
+   MOV AH, 00h  ; interrupts to get system time        
+   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+
+   mov  ax, dx
+   xor  dx, dx
+   mov  cx, 2    
+   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
+   cmp dx,0
+   jz generarSopaDeportes1
+   jnz generarSopaDeportes2 
+
+
+
+
+ 
+generarSopaMundial1:
+    ;Se genera la primera matriz con los equipos del mundial
     
+    jmp iniciarCategoriaMundial
+
+
+generarSopaMundial2: 
+    ;Se genera la segunda matriz con los equipos del mundial
+    
+    jmp iniciarCategoriaMundial
+
+
+generarSopaDeportes1:
+    ;Se genera la primera matriz con los deportes
+    
+    jmp iniciarCategoriaDeportes
+
+generarSopaDeportes2:
+    ;Se genera la segunda matriz con los deportes
+    
+    jmp iniciarCategoriaDeportes
+ 
+              
+              
+              
+              
 iniciarCategoriaMundial:
+
 
 
 
