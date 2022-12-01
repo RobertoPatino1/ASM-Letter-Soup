@@ -13,7 +13,10 @@ msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingre
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
 msgContinuar db 'Deseas continuar jugando? (1=Si/0=No) $'
 msgRespuesta db 'Ingresa tu respuesta: $'
-respuesta db ?
+respuesta   db  26        ;MAX NUMBER OF CHARACTERS ALLOWED (25).
+            db  ?         ;NUMBER OF CHARACTERS ENTERED BY USER.
+            db  26 dup(0) ;CHARACTERS ENTERED BY USER.
+
 randomNumber db ?
 ;TODO:
 ;Agregar variables para otros mensajes y captura de datos ingresados por el usuario
@@ -169,12 +172,14 @@ ingresoRespuesta:
     mov ah,09h
     lea dx,msgRespuesta
     int 21h
-    ;Capturando datos ingresados por el usuario
-    mov ah, 01h         ;funcion para captura de dato
-    int 21h             ;interrupcion para captura de dato (ASCCI), se almacena en al
-    sub al, 30h         ;convertir codigo ASCII capturado al valor ingresado por el usuario
-    mov respuesta, al
+    ;CAPTURE STRING FROM KEYBOARD.                                    
+    mov ah, 0Ah ;SERVICE TO CAPTURE STRING FROM KEYBOARD.
+    mov dx, offset respuesta
+    int 21h  
     ;Salto de linea
     mov ah,09h        
     lea dx, salto        
     int 21h
+       
+
+    
