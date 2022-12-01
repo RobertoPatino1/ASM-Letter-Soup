@@ -158,13 +158,21 @@ generarSopaDeportes2:
               
 ;TODO: Agregar validaciones extras para ver si el usuario ingresa una palabra correcta            
 iniciarCategoriaMundial:
-         jmp ingresoRespuesta
+    ;LIMPIEZA DE LA CONSOLA
+    mov ax, 3
+    int 10h
+    ;----------------------
+    jmp ingresoRespuesta
 
 
 
 
-iniciarCategoriaDeportes:
-
+iniciarCategoriaDeportes: 
+    ;LIMPIEZA DE LA CONSOLA
+    mov ax, 3
+    int 10h
+    ;----------------------
+    jmp ingresoRespuesta    ;Crear otra rutina para el ingreso de deportes???
 
 
 ;TODO: Permitir que se ingrese una cadena de caracteres, no un solo caracter
@@ -175,11 +183,32 @@ ingresoRespuesta:
     ;CAPTURE STRING FROM KEYBOARD.                                    
     mov ah, 0Ah ;SERVICE TO CAPTURE STRING FROM KEYBOARD.
     mov dx, offset respuesta
-    int 21h  
+    int 21h
     ;Salto de linea
     mov ah,09h        
     lea dx, salto        
     int 21h
+
+;MOSTRANDO LA RESPUESTA POR PANTALLA
+    
+;CHANGE CHR(13) BY '$'.
+    mov si, offset respuesta + 1 ;NUMBER OF CHARACTERS ENTERED.
+    mov cl, [ si ] ;MOVE LENGTH TO CL.
+    mov ch, 0      ;CLEAR CH TO USE CX. 
+    inc cx ;TO REACH CHR(13).
+    add si, cx ;NOW SI POINTS TO CHR(13).
+    mov al, '$'
+    mov [ si ], al ;REPLACE CHR(13) BY '$'.            
+
+;DISPLAY STRING.                   
+    mov ah, 09h ;SERVICE TO DISPLAY STRING.
+    mov dx, offset respuesta + 2 ;MUST END WITH '$'.
+    int 21h
+
+    mov ah, 4ch
+    int 21h      
+
        
 
-    
+
+
