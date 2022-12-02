@@ -13,9 +13,7 @@ msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingre
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
 msgContinuar db 'Deseas continuar jugando? (1=Si/0=No) $'
 msgRespuesta db 'Ingresa tu respuesta: $'
-respuesta   db  26        ;MAX NUMBER OF CHARACTERS ALLOWED (25).
-            db  ?         ;NUMBER OF CHARACTERS ENTERED BY USER.
-            db  26 dup(0) ;CHARACTERS ENTERED BY USER.
+respuesta db 16,0,78 DUP('$')
 
 randomNumber db ?
 ;TODO:
@@ -27,7 +25,8 @@ randomNumber db ?
 mov cx,0000h
 
 
-
+;EL OBJETIVO DE ESTA ETIQUETA ES PRESENTAR LOS MENSAJES INICIALES AL USUARIO
+;Y DARLE LA BIENVENIDA AL JUEGO, ESTA SOLO CARGA E IMPRIME LOS MENSAJES RESPECTIVOS
 iniciarJuego:
     ;Mensaje de inicio
     mov ah,09h
@@ -166,46 +165,68 @@ iniciarCategoriaDeportes:
 
 ;TODO: Permitir que se ingrese una cadena de caracteres, no un solo caracter
 ingresoRespuesta:
+    ;INPUT
     mov ah,09h
     lea dx,msgRespuesta
-    int 21h
-    ;CAPTURE STRING FROM KEYBOARD.                                    
-    mov ah, 0Ah ;SERVICE TO CAPTURE STRING FROM KEYBOARD.
-    mov dx, offset respuesta
-    int 21h
-    ;Salto de linea
-    mov ah,09h        
-    lea dx, salto        
-    int 21h
-
-;MOSTRANDO LA RESPUESTA POR PANTALLA
+    int 21h    
+    mov ah,0ah
+    lea dx,respuesta
     
-;CHANGE CHR(13) BY '$'.
-    mov si, offset respuesta + 1 ;NUMBER OF CHARACTERS ENTERED.
-    mov cl, [ si ] ;MOVE LENGTH TO CL.
-    mov ch, 0      ;CLEAR CH TO USE CX. 
-    inc cx ;TO REACH CHR(13).
-    add si, cx ;NOW SI POINTS TO CHR(13).
-    mov al, '$'
-    mov [ si ], al ;REPLACE CHR(13) BY '$'.            
-
-;DISPLAY STRING.                   
-    mov ah, 09h ;SERVICE TO DISPLAY STRING.
-    mov dx, offset respuesta + 2 ;MUST END WITH '$'.
+    int 21h 
+    
+    ;Prompt
+    
+    mov ah,09h
+    lea dx,salto
     int 21h
-
-    mov ah, 4ch
+    mov dx,offset respuesta+2
     int 21h
     
-    
-
-;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA
+;SALIR DEL PROGRAMA
+salir:
+    mov ah,00h
+    int 21h    
+ 
+ 
+ 
+ 
+ 
+ 
+;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA   
+;OJO: NO PERMITIR QUE EL PROGRAMA LLEGUE A ESTOS PROCESOS FUERA DE LAS LLAMADAS A ELLOS
 ret
 limpiarPantalla PROC
     mov ax, 3
     int 10h
  ret
 limpiarPantalla ENDP
+
+
+
+;PROCEDIMIENTO PARA GENERAR UN NUMERO ALEATORIO ENTRE 0 Y 1
+ret
+generarNumeroAleatorio PROC
+   MOV AH, 00h  ; interrupts to get system time        
+   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+   mov  ax, dx
+   xor  dx, dx
+   mov  cx, 2    
+   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
+   cmp dx,0
+   mov randomNumber,dl
+ ret
+generarNumeroAleatorio ENDP
+
+
+
+
+
+
+
+       
+
+
+
 
 
 
