@@ -89,6 +89,7 @@ validarIngresoCategoria:    ;Rutina que valida que el numero ingresado para la c
       
 ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalido
     ;Mensaje de inicio
+    call limpiarPantalla
     mov ah,09h
     lea dx,msgErrorCategoria
     int 21h
@@ -96,7 +97,7 @@ ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalid
     lea dx, salto        
     int 21h
     int 21h
-    jmp ingresoCategoria    ;Volvemos a pedir ingreso
+    jmp iniciarJuego    ;Volvemos a pedir ingreso
     
 
 
@@ -104,26 +105,13 @@ ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalid
  
  
 ;En estas rutinas, el 0 representa la primera opcion, el 1 la segunda    
-generarNumeroAleatorioFutbol: 
-   MOV AH, 00h  ; interrupts to get system time        
-   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
-   mov  ax, dx
-   xor  dx, dx
-   mov  cx, 2    
-   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
-   cmp dx,0
-   mov randomNumber,dl
+generarNumeroAleatorioFutbol:
+   call generarNumeroAleatorio
    jz generarSopaMundial1
    jnz generarSopaMundial2  
    
 generarNumeroAleatorioDeportes: 
-   MOV AH, 00h  ; interrupts to get system time        
-   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
-   mov  ax, dx
-   xor  dx, dx
-   mov  cx, 2    
-   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
-   cmp dx,0
+   call generarNumeroAleatorio
    jz generarSopaDeportes1
    jnz generarSopaDeportes2 
 
@@ -159,9 +147,11 @@ generarSopaDeportes2:
 ;TODO: Agregar validaciones extras para ver si el usuario ingresa una palabra correcta            
 iniciarCategoriaMundial:
     ;LIMPIEZA DE LA CONSOLA
-    mov ax, 3
-    int 10h
-    ;----------------------
+    call limpiarPantalla
+    ;----------------------  
+
+
+   
     jmp ingresoRespuesta
 
 
@@ -169,8 +159,7 @@ iniciarCategoriaMundial:
 
 iniciarCategoriaDeportes: 
     ;LIMPIEZA DE LA CONSOLA
-    mov ax, 3
-    int 10h
+    call limpiarPantalla
     ;----------------------
     jmp ingresoRespuesta    ;Crear otra rutina para el ingreso de deportes???
 
@@ -206,7 +195,34 @@ ingresoRespuesta:
     int 21h
 
     mov ah, 4ch
-    int 21h      
+    int 21h
+    
+    
+
+;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA
+ret
+limpiarPantalla PROC
+    mov ax, 3
+    int 10h
+ ret
+limpiarPantalla ENDP
+
+
+
+;PROCEDIMIENTO PARA GENERAR UN NUMERO ALEATORIO ENTRE 0 Y 1
+ret
+generarNumeroAleatorio PROC
+   MOV AH, 00h  ; interrupts to get system time        
+   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+   mov  ax, dx
+   xor  dx, dx
+   mov  cx, 2    
+   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
+   cmp dx,0
+   mov randomNumber,dl
+ ret
+generarNumeroAleatorio ENDP          
+
 
        
 
