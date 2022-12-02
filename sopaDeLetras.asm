@@ -192,7 +192,7 @@ salir:
  
  
  
-;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA   
+;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA DE LA CONSOLA   
 ;OJO: NO PERMITIR QUE EL PROGRAMA LLEGUE A ESTOS PROCESOS FUERA DE LAS LLAMADAS A ELLOS
 ret
 limpiarPantalla PROC
@@ -204,6 +204,10 @@ limpiarPantalla ENDP
 
 
 ;PROCEDIMIENTO PARA GENERAR UN NUMERO ALEATORIO ENTRE 0 Y 1
+;EL PROPOSITO DE ESTE ES SELECCIONAR UNA DE LAS 2 SOPAS DE LETRAS AL AZAR
+;0 -> PRIMERA OPCION
+;1 -> SEGUNDA OPCION
+;OBTIENE EL NUMERO ALEATORIO EN FUNCION DE LOS CLOCK TICKS DEL SISTEMA
 ret
 generarNumeroAleatorio PROC
    MOV AH, 00h  ; interrupts to get system time        
@@ -227,14 +231,7 @@ generarNumeroAleatorio ENDP
 
 
 
-
-
-
-;PROCEDIMIENTO PARA GENERAR UN NUMERO ALEATORIO ENTRE 0 Y 1
-ret
-generarNumeroAleatorio PROC
-   MOV AH, 00h  ; interrupts to get system time        
-   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+k ticks since midnight      
    mov  ax, dx
    xor  dx, dx
    mov  cx, 2    
