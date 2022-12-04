@@ -99,7 +99,7 @@ verde db  010100000b
 rojo db  011000000b
 amarillo db  011100000b
 cian db  010110000b
-rosado db  011010000b              
+rosa db  011010000b             
 
 ;VARIABLES PARA VALIDAR PALABRAS              
 palabraI db  20 dup("$")
@@ -108,9 +108,9 @@ vacio db  100 dup(" "),"$"
 
 ;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO
 ;posicionEquipos1 db 0,4,10,11,12,13
-posicionEquipos1 db 0,4,10,14,22,32
+posicionEquipos1 db 0,10,17,22,29,36
 listaEquipos1 db "INGLATERRA","ECUADOR","QATAR","SENEGAL","HOLANDA",0
-posicionEquipos2 db 0,4,10,14,22,32 ;TODO: ACTUALIZAR ESTOS VALORES
+posicionEquipos2 db 0,6,14,18,25,34 ;TODO: ACTUALIZAR ESTOS VALORES
 listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
 
 ;TODO:
@@ -442,31 +442,31 @@ palabraIngresadaEquipos1:
 ;-------------------------------------------------------  
 ;Resalta Inglaterra
 resaltarInglaterra:
-    resaltar 2,2,2,11,rojo
+    resaltar 2,2,0,18,rojo
     inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
     jmp pedirSiguienteEquipos1
 
 ;Resalta Ecuador    
 resaltarEcuador:
-    resaltar 3,3,5,11,amarillo                              
+    resaltar 3,3,6,18,amarillo                              
     inc palabra2
     jmp pedirSiguienteEquipos1
 
 ;Resalta Qatar    
 resaltarQatar:                               
-    ;pintar 6,9,26,26,rosa      
+    resaltar 7,7,12,20,rosa      
     inc palabra3
     jmp pedirSiguienteEquipos1
 
 ;Resalta Senegal    
 resaltarSenegal:                           
-    ;pintar 15,15,6,20,cian     
+    resaltar 8,8,0,12,cian     
     inc palabra4
     jmp pedirSiguienteEquipos1
 
 ;Resalta Holanda    
 resaltarHolanda:                          
-    ;pintar 5,14,2,2,amarillo   
+    resaltar 9,9,4,16,verde   
     inc palabra5
     jmp pedirSiguienteEquipos1    
  
@@ -533,19 +533,19 @@ resaltarPortugal:
 
 ;Resalta Iran    
 resaltarIran:                               
-    ;pintar 6,9,26,26,rosa      
+    ;resaltar 6,9,26,26,rosa      
     inc palabra3
     jmp pedirSiguienteEquipos2
 
 ;Resalta Belgica    
 resaltarBelgica:                           
-    ;pintar 15,15,6,20,cian     
+    ;resaltar 15,15,6,20,cian     
     inc palabra4
     jmp pedirSiguienteEquipos2
 
 ;Resalta Argentina    
 resaltarArgentina:                          
-    ;pintar 5,14,2,2,amarillo   
+    ;resaltar 5,14,2,2,amarillo   
     inc palabra5
     jmp pedirSiguienteEquipos2    
  
