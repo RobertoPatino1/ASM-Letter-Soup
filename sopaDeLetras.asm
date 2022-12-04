@@ -13,21 +13,52 @@ msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingre
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
 msgContinuar db 'Deseas continuar jugando? (1=Si/0=No) $'
 msgRespuesta db 'Ingresa tu respuesta: $'
-respuesta   db  26        ;MAX NUMBER OF CHARACTERS ALLOWED (25).
-            db  ?         ;NUMBER OF CHARACTERS ENTERED BY USER.
-            db  26 dup(0) ;CHARACTERS ENTERED BY USER.
+respuesta db 16,0,78 DUP('$')
 
 randomNumber db ?
 ;TODO:
 ;Agregar variables para otros mensajes y captura de datos ingresados por el usuario
 
+;------------------------------------------------------------
+;------DECLARACION DE MATRICES PARA LAS SOPAS DE LETRAS------
+;------------------------------------------------------------
 
+;MATRIZ DE EQUIPOS 1
+equipos1      db  "I N G L A T E R R A C",13,10
+              db  "E G D E C U A D O R U",13,10
+              db  "K G L W X R A D L G G"13,10
+              db  "M Y M H A V Q Z Q Y Z",13,10
+              db  "S Q C H M Z J R Z T T",13,10
+              db  "Y N T W U N Q A T A R",13,10
+              db  "S E N E G A L X O C O",13,10
+              db  "N B H O L A N D A R X",13,10
+              db  "P K M S K F S E P Y W",13,10
+              db  "C C O E T V W X P O Y",13,10
+              db  "U W Z G C D X J Z F I$",13,10
+              
+equipos2      db  "K J R A Q Z V Q U O W",13,10
+              db  "J U K Z I O A T L A O",13,10
+              db  "N T J X P R L U P R O",13,10
+              db  "B K R C O G A L J G R",13,10
+              db  "W X N S R R B N V E F",13,10
+              db  "O C L X T E E P A N D",13,10
+              db  "Z A N N U V L N Z T K",13,10
+              db  "K N Y R G J G Y A I H",13,10
+              db  "W A X K A Q I F T N N",13,10
+              db  "I D K E L J C I S A F",13,10
+              db  "L A C R S E A A U S J$",13,10 
+              
+              
+              
+              
+              
 .code
 .start
 mov cx,0000h
 
 
-
+;EL OBJETIVO DE ESTA ETIQUETA ES PRESENTAR LOS MENSAJES INICIALES AL USUARIO
+;Y DARLE LA BIENVENIDA AL JUEGO, ESTA SOLO CARGA E IMPRIME LOS MENSAJES RESPECTIVOS
 iniciarJuego:
     ;Mensaje de inicio
     mov ah,09h
@@ -166,40 +197,35 @@ iniciarCategoriaDeportes:
 
 ;TODO: Permitir que se ingrese una cadena de caracteres, no un solo caracter
 ingresoRespuesta:
+    ;INPUT
     mov ah,09h
     lea dx,msgRespuesta
-    int 21h
-    ;CAPTURE STRING FROM KEYBOARD.                                    
-    mov ah, 0Ah ;SERVICE TO CAPTURE STRING FROM KEYBOARD.
-    mov dx, offset respuesta
-    int 21h
-    ;Salto de linea
-    mov ah,09h        
-    lea dx, salto        
-    int 21h
-
-;MOSTRANDO LA RESPUESTA POR PANTALLA
+    int 21h    
+    mov ah,0ah
+    lea dx,respuesta
     
-;CHANGE CHR(13) BY '$'.
-    mov si, offset respuesta + 1 ;NUMBER OF CHARACTERS ENTERED.
-    mov cl, [ si ] ;MOVE LENGTH TO CL.
-    mov ch, 0      ;CLEAR CH TO USE CX. 
-    inc cx ;TO REACH CHR(13).
-    add si, cx ;NOW SI POINTS TO CHR(13).
-    mov al, '$'
-    mov [ si ], al ;REPLACE CHR(13) BY '$'.            
-
-;DISPLAY STRING.                   
-    mov ah, 09h ;SERVICE TO DISPLAY STRING.
-    mov dx, offset respuesta + 2 ;MUST END WITH '$'.
+    int 21h 
+    
+    ;Prompt
+    
+    mov ah,09h
+    lea dx,salto
     int 21h
-
-    mov ah, 4ch
+    mov dx,offset respuesta+2
     int 21h
     
-    
-
-;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA
+;SALIR DEL PROGRAMA
+salir:
+    mov ah,00h
+    int 21h    
+ 
+ 
+ 
+ 
+ 
+ 
+;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA DE LA CONSOLA   
+;OJO: NO PERMITIR QUE EL PROGRAMA LLEGUE A ESTOS PROCESOS FUERA DE LAS LLAMADAS A ELLOS
 ret
 limpiarPantalla PROC
     mov ax, 3
@@ -210,10 +236,37 @@ limpiarPantalla ENDP
 
 
 ;PROCEDIMIENTO PARA GENERAR UN NUMERO ALEATORIO ENTRE 0 Y 1
+;EL PROPOSITO DE ESTE ES SELECCIONAR UNA DE LAS 2 SOPAS DE LETRAS AL AZAR
+;0 -> PRIMERA OPCION
+;1 -> SEGUNDA OPCION
+;OBTIENE EL NUMERO ALEATORIO EN FUNCION DE LOS CLOCK TICKS DEL SISTEMA
 ret
 generarNumeroAleatorio PROC
    MOV AH, 00h  ; interrupts to get system time        
    INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+   mov  ax, dx
+   xor  dx, dx
+   mov  cx, 2    
+   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
+   cmp dx,0
+   mov randomNumber,dl
+ ret
+generarNumeroAleatorio ENDP
+
+
+
+
+       
+
+
+
+
+
+       
+
+
+
+ midnight      
    mov  ax, dx
    xor  dx, dx
    mov  cx, 2    
