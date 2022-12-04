@@ -29,6 +29,7 @@ palabra3 db ?
 palabra4 db ?
 palabra5 db ? 
 
+checkpoint db ? ;Variable que se usara para saber en que sopa de letras se encuentra el usuario
 
 
 respuesta db 16,0,78 DUP('$')
@@ -115,9 +116,9 @@ listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
 
 ;TODO:
 ;-----------AGREGAR LAS OTRAS LISTAS DE PALABRAS CON DISCIPLINAS DEPORTIVAS----------------            
-;posicionDeportes1 db ...... TODO
+posicionDeportes1 db 0,6,14,24,29,37
 listaDeportes1 db "FUTBOL","NATACION","BASQUETBOL","TENIS","VOLEIBOL",0
-;posicionDeportes2 db .....TODO
+posicionDeportes2 db 0,6,14,19,28,35
 listaDeportes2 db "KARATE","CICLISMO","RUGBY","ATLETISMO","AJEDREZ",0
               
 .code
@@ -413,6 +414,7 @@ generarNumeroAleatorioDeportes:
 ;############ DESDE AQUI ############################
 ;#################################################### 
 generarSopaMundial1:
+    mov checkpoint,1    ;Primera sopa de letras
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion2
@@ -492,7 +494,8 @@ pedirSiguienteEquipos1:
 
 
 
-generarSopaMundial2: 
+generarSopaMundial2:
+    mov checkpoint,2    ;Segunda sopa de letras         ;TODO: REPETIR PARA LAS 2 SOPAS DE LETRAS FALTANTES
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion2
@@ -601,22 +604,20 @@ victoria:
 derrota:
     mov linea, 18
     mostrar msgPierde
-    jmp resaltarRespuestas
+    cmp checkpoint,1
+    jz resaltarRespuestasEquipos1
+    cmp checkpoint,2
+    jz resaltarRespuestasEquipos2
+    cmp checkpoint,3
+    jz resaltarRespuestasDeportes1
+    cmp checkpoint,4
+    jz resaltarRespuestasDeportes2
+    ;jnz salir
                
-;RUTINAS PARA RESALTAR TODAS LAS RESPUESTAS EN CASO DE QUE EL USUARIO SE RINDA               
+;RUTINAS PARA RESALTAR TODAS LAS RESPUESTAS EN CASO DE QUE EL USUARIO SE RINDA
+
+;Respuestas de la primera sopa de letras de equipos               
 resaltarRespuestasEquipos1:
-    
-
-resaltarRespuestasEquipos2:
-
-resaltarRespuestasDeportes1:
-
-resaltarRespuestasDeportes2:
-
-
-resaltarRespuestas:
-
-    ;mostrar equipos1
     resaltar 2,2,0,18,rojo   
     resaltar 3,3,6,18,amarillo
     resaltar 7,7,12,20,rosa
@@ -626,7 +627,22 @@ resaltarRespuestas:
     mostrar msgSeleccion2
     inc linea
     mostrar equipos1       
-    jmp salir
+    jmp salir    
+
+;Respuestas de la segunda sopa de letras de equipos 
+resaltarRespuestasEquipos2:
+
+
+;Respuestas de la primera sopa de letras de deportes 
+resaltarRespuestasDeportes1:
+ 
+ 
+;Respuestas de la segunda sopa de letras de equipos 
+resaltarRespuestasDeportes2:
+
+
+
+
     
     
 ;SALIR DEL PROGRAMA
@@ -635,11 +651,6 @@ salir:
     int 21h    
  
  
- 
- 
- 
- 
-
 
 
 ;PROCEDIMIENTO PARA GENERAR UN NUMERO ALEATORIO ENTRE 0 Y 1
