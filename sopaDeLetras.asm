@@ -15,8 +15,8 @@ msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingre
 
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
 msgRespuesta db "Ingresa una palabra encontrada o 0 para salir: $"
-msgPierde db "Fin del juego, mejor suerte para la proxima :($"
-msgGana db "Felicidades! Has encontrado todas las palabras!$"
+msgPierde db "Fin del juego, mejor suerte para la proxima :($"  ;Mensaje en caso de que el usuario se rinda
+msgGana db "Felicidades! Has encontrado todas las palabras!$"   ;Mensaje en caso de que el usuario adivine todas las palabras
 contador db ?                                                
 ;VARIABLES QUE ALMACENARAN LAS PALABRAS QUE VAYA ENCONTRANDO EL USUARIO
 palabra1 db ?
@@ -279,6 +279,25 @@ limpiar:
     dec linea
     mostrar vacio   
 endm 
+
+
+;"FUNCION" para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
+resaltar macro filaInicial,,columnaInicial,columnaFinal,color                ;pintar en la pantalla con un respectivo color
+    mov ah, 06h
+    mov bh, color
+    mov ch, filaInicial         
+    mov dh, filaFinal         
+    mov cl, columnaInicial         
+    mov dl, columnaFinal         
+    int 10h
+endm
+ 
+
+
+
+
+
+
 
 
 ;EL OBJETIVO DE ESTA ETIQUETA ES PRESENTAR LOS MENSAJES INICIALES AL USUARIO
