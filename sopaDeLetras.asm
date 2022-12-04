@@ -282,7 +282,7 @@ endm
 
 
 ;"FUNCION" para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
-resaltar macro filaInicial,,columnaInicial,columnaFinal,color                ;pintar en la pantalla con un respectivo color
+resaltar macro filaInicial,,columnaInicial,columnaFinal,color                
     mov ah, 06h
     mov bh, color
     mov ch, filaInicial         
@@ -495,6 +495,21 @@ generarNumeroAleatorio PROC
    mov randomNumber,dl
  ret
 generarNumeroAleatorio ENDP
+
+
+
+
+       
+
+
+
+
+
+       
+
+
+
+DP
 
 
 
