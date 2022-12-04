@@ -48,8 +48,31 @@ equipos2      db  "K J R A Q Z V Q U O W",13,10
               db  "I D K E L J C I S A F",13,10
               db  "L A C R S E A A U S J$",13,10 
               
-              
-              
+;MATRIZ DE DEPORTES 1    
+deportes1      db  "A B F Y G C S D H T I",13,10
+               db  "X A V U U H S Q U C L",13,10
+               db  "N S U Y T Z I T B E S",13,10
+               db  "A Q D U E B F Q J D K",13,10
+               db  "T U R K C U O Y M G E",13,10
+               db  "A E W B T X U L M H S",13,10
+               db  "C T Z I X E E F Y R I",13,10
+               db  "I B M H I N N N E R M",13,10
+               db  "O O P V O L E I B O L",13,10
+               db  "N L T T X S C Y S U W",13,10
+               db  "E Q O Y S D G V Q D M$",13,10
+
+;MATRIZ DE DEPORTES 2          
+deportes2      db  "I L X O D Z J A K Z Y",13,10
+               db  "J K A Q G E Z X A P O",13,10
+               db  "X W Z C Z O G T R X N",13,10
+               db  "W D I T I G N C A O Y",13,10
+               db  "X I W K G C A R T K R",13,10
+               db  "C W P H X K L C E H W",13,10
+               db  "D R U G B Y H I C J U",13,10
+               db  "G D K L T Z O G S A E",13,10
+               db  "M M K V S I V Z A M Q",13,10
+               db  "G S A T L E T I S M O",13,10
+               db  "A J E D R E Z L X Y Z$",13,10              
               
               
 .code
