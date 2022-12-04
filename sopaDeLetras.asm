@@ -524,31 +524,34 @@ palabraIngresadaEquipos2:
 ;-------------------------------------------------------  
 ;Resalta Canada
 resaltarCanada:
-    resaltar 2,2,2,11,rojo
+    resaltar 7,12,2,2,rojo
     inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
     jmp pedirSiguienteEquipos2
 
 ;Resalta Portugal    
 resaltarPortugal:
-    resaltar 3,3,5,11,amarillo                              
+    resaltar 4,11,8,8,amarillo                              
     inc palabra2
     jmp pedirSiguienteEquipos2
 
 ;Resalta Iran    
 resaltarIran:                               
-    ;resaltar 6,9,26,26,rosa      
+    resaltar 3,3,8,8,rosa           ;I          
+    resaltar 4,4,10,10,rosa         ;R
+    resaltar 5,5,12,12,rosa         ;A          ;ESTO SE HACE YA QUE ES UNA PALABRA EN DIAGONAL
+    resaltar 6,6,14,14,rosa         ;N
     inc palabra3
     jmp pedirSiguienteEquipos2
 
 ;Resalta Belgica    
 resaltarBelgica:                           
-    ;resaltar 15,15,6,20,cian     
+    resaltar 6,12,12,12,cian     
     inc palabra4
     jmp pedirSiguienteEquipos2
 
 ;Resalta Argentina    
 resaltarArgentina:                          
-    ;resaltar 5,14,2,2,amarillo   
+    resaltar 3,11,18,18,verde   
     inc palabra5
     jmp pedirSiguienteEquipos2    
  
@@ -622,7 +625,7 @@ resaltarRespuestasEquipos1:
     resaltar 3,3,6,18,amarillo
     resaltar 7,7,12,20,rosa
     resaltar 8,8,0,12,cian
-    resaltar 9,9,4,15,verde 
+    resaltar 9,9,4,16,verde 
     mov linea, 0
     mostrar msgSeleccion2
     inc linea
@@ -631,7 +634,19 @@ resaltarRespuestasEquipos1:
 
 ;Respuestas de la segunda sopa de letras de equipos 
 resaltarRespuestasEquipos2:
-
+    resaltar 7,12,2,2,rojo
+    resaltar 4,11,8,8,amarillo 
+    resaltar 3,3,8,8,rosa                     
+    resaltar 4,4,10,10,rosa         
+    resaltar 5,5,12,12,rosa                   
+    resaltar 6,6,14,14,rosa         
+    resaltar 6,12,12,12,cian 
+    resaltar 3,11,18,18,verde 
+    mov linea, 0
+    mostrar msgSeleccion2
+    inc linea
+    mostrar equipos2       
+    jmp salir 
 
 ;Respuestas de la primera sopa de letras de deportes 
 resaltarRespuestasDeportes1:
