@@ -1,4 +1,6 @@
 name "Sopa de letras"
+include "emu8086.inc" 
+org 100h
 .model small
 .data
 seleccionCategoria db ?
@@ -288,12 +290,6 @@ generarNumeroAleatorio PROC
    mov randomNumber,dl
  ret
 generarNumeroAleatorio ENDP
-
-
-
-
-       
-
 
 
 
