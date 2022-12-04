@@ -407,7 +407,11 @@ generarNumeroAleatorioDeportes:
 
 
 
-;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS EQUIPOS DEL MUNDIAL 
+;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS EQUIPOS DEL MUNDIAL
+
+;####################################################
+;############ DESDE AQUI ############################
+;#################################################### 
 generarSopaMundial1:
     call clear_screen
     mov linea, 0
@@ -476,10 +480,12 @@ pedirSiguienteEquipos1:
     cmp contador, 5 
     jz victoria
     mov linea, 18
-   ; pedirPalabra posicionEquipos1,listaEquipos1
+   pedirPalabra posicionEquipos1,listaEquipos1
     jmp palabraIngresadaEquipos1
     
-
+;####################################################
+;############ HASTA AQUI ############################
+;#################################################### 
 
 
 
@@ -572,21 +578,6 @@ generarNumeroAleatorio ENDP
 
 
 DEFINE_CLEAR_SCREEN
-DEFINE_SCAN_NUM    
-END  
-
-
-       
-
-
-
-
-
-       
-
-
-
-CREEN
 DEFINE_SCAN_NUM    
 END  
 
