@@ -528,6 +528,13 @@ iniciarCategoriaDeportes:
 
 victoria:
     ;RUTINA PARA PRESENTAR EL MENSAJE DE VICTORIA
+    mostrar msgGana
+    jmp salir
+    
+
+derrota:
+    mostrar msgPierde
+    jmp salir
      
 ;SALIR DEL PROGRAMA
 salir:
