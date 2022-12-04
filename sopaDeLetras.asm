@@ -1,8 +1,12 @@
 name "Sopa de letras"
 include "emu8086.inc" 
 org 100h
+
 .model small
 .data
+
+
+
 seleccionCategoria db ?
 linea db ?
 msgInicio db '-----Bienvenido al juego: Sopa de letras----- $'
@@ -103,7 +107,8 @@ palabraMayuscula db  20 dup("$")    ;Para guardar palabras convertidas a mayuscu
 vacio db  100 dup(" "),"$"  
 
 ;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO
-;posicionEquipos1 db ...... TODO
+;posicionEquipos1 db 0,4,10,11,12,13
+posicionEquipos1 db 0,4,10,14,22,32
 listaEquipos1 db "INGLATERRA","ECUADOR","QATAR","SENEGAL","HOLANDA",0
 ;posicionEquipos2 db .....TODO
 listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
@@ -282,7 +287,7 @@ endm
 
 
 ;"FUNCION" para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
-resaltar macro filaInicial,,columnaInicial,columnaFinal,color                
+resaltar macro filaInicial,filaFinal,columnaInicial,columnaFinal,color                
     mov ah, 06h
     mov bh, color
     mov ch, filaInicial         
@@ -373,7 +378,7 @@ validarIngresoCategoria:    ;Rutina que valida que el numero ingresado para la c
       
 ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalido
     ;Mensaje de inicio
-    call limpiarPantalla
+    call clear_screen
     mov ah,09h
     lea dx,msgErrorCategoria
     int 21h
@@ -404,19 +409,19 @@ generarNumeroAleatorioDeportes:
 
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS EQUIPOS DEL MUNDIAL 
 generarSopaMundial1:
-    call limpiarPantalla
+    call clear_screen
     mov linea, 0
-    mostrar equipos1
-    inc linea
     mostrar msgSeleccion2
+    inc linea
+    mostrar equipos1
     mov linea, 18
-    pedirPalabra posicionEquipos1,listaEquipos1
-    jmp palabra_a1    
+    ;pedirPalabra posicionEquipos1,listaEquipos1
+    jmp pedirSiguienteEquipos1    
     jmp iniciarCategoriaMundial
 
 
 ;Rutina para pintar en la matriz la palabra ingresada
-palabra_a1:                                 
+palabraIngresadaEquipos1:                                 
     cmp palabra1, 1
     jz resaltarInglaterra
     cmp palabra2, 1
@@ -427,7 +432,53 @@ palabra_a1:
     jz resaltarSenegal
     cmp palabra5, 1
     jz resaltarHolanda
-    jnz pedir_a1
+    jnz pedirSiguienteEquipos1
+    
+;-------------------------------------------------------
+;Rutinas para resaltar de forma individual las palabras
+;-------------------------------------------------------  
+;Resalta inglaterra
+resaltarInglaterra:
+    resaltar 2,2,2,11,rojo
+    inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
+    jmp pedirSiguienteEquipos1
+
+;Resalta Ecuador    
+resaltarEcuador:
+    resaltar 3,3,5,11,amarillo                              
+    inc palabra2
+    jmp pedirSiguienteEquipos1
+
+;Resalta Qatar    
+resaltarQatar:                               
+    ;pintar 6,9,26,26,rosa      
+    inc palabra3
+    jmp pedirSiguienteEquipos1
+
+;Resalta Senegal    
+resaltarSenegal:                           
+    ;pintar 15,15,6,20,cian     
+    inc palabra4
+    jmp pedirSiguienteEquipos1
+
+;Resalta Holanda    
+resaltarHolanda:                          
+    ;pintar 5,14,2,2,amarillo   
+    inc palabra5
+    jmp pedirSiguienteEquipos1    
+ 
+;Rutina para pedir la palabra siguiente  
+pedirSiguienteEquipos1:                                   
+    mov linea, 0
+    mostrar msgSeleccion2
+    inc linea
+    mostrar equipos1 
+    cmp contador, 5 
+    jz victoria
+    mov linea, 18
+   ; pedirPalabra posicionEquipos1,listaEquipos1
+    jmp palabraIngresadaEquipos1
+    
 
 
 
@@ -463,37 +514,21 @@ iniciarCategoriaMundial:
 
 
    
-    jmp ingresoRespuesta
+    ;jmp ingresoRespuesta
 
 
 
 
 iniciarCategoriaDeportes: 
     ;LIMPIEZA DE LA CONSOLA
-    call limpiarPantalla
+    call clear_screen
     ;----------------------
-    jmp ingresoRespuesta    ;Crear otra rutina para el ingreso de deportes???
+   ; jmp ingresoRespuesta    ;Crear otra rutina para el ingreso de deportes???
 
 
-;TODO: Permitir que se ingrese una cadena de caracteres, no un solo caracter
-ingresoRespuesta:
-    ;INPUT
-    mov ah,09h
-    lea dx,msgRespuesta
-    int 21h    
-    mov ah,0ah
-    lea dx,respuesta
-    
-    int 21h 
-    
-    ;Prompt
-    
-    mov ah,09h
-    lea dx,salto
-    int 21h
-    mov dx,offset respuesta+2
-    int 21h
-    
+victoria:
+    ;RUTINA PARA PRESENTAR EL MENSAJE DE VICTORIA
+     
 ;SALIR DEL PROGRAMA
 salir:
     mov ah,00h
@@ -504,14 +539,6 @@ salir:
  
  
  
-;PROCEDIMIENTO PARA LIMPIAR LA PANTALLA DE LA CONSOLA   
-;OJO: NO PERMITIR QUE EL PROGRAMA LLEGUE A ESTOS PROCESOS FUERA DE LAS LLAMADAS A ELLOS
-ret
-limpiarPantalla PROC
-    mov ax, 3
-    int 10h
- ret
-limpiarPantalla ENDP
 
 
 
@@ -534,6 +561,10 @@ generarNumeroAleatorio PROC
 generarNumeroAleatorio ENDP
 
 
+
+DEFINE_CLEAR_SCREEN
+DEFINE_SCAN_NUM    
+END  
 
 
        
