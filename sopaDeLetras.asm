@@ -19,7 +19,7 @@ msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingre
 
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
 msgRespuesta db "Ingresa una palabra encontrada o 0 para salir: $"
-msgPierde db "Fin del juego, mejor suerte para la proxima :($"  ;Mensaje en caso de que el usuario se rinda
+msgPierde db "Fin del juego, mejor suerte para la proxima!$"  ;Mensaje en caso de que el usuario se rinda
 msgGana db "Felicidades! Has encontrado todas las palabras!$"   ;Mensaje en caso de que el usuario adivine todas las palabras
 contador db ?                                                
 ;VARIABLES QUE ALMACENARAN LAS PALABRAS QUE VAYA ENCONTRANDO EL USUARIO
@@ -28,7 +28,7 @@ palabra2 db ?
 palabra3 db ?
 palabra4 db ?
 palabra5 db ? 
-;palabra         db  "Ingrese una palabra encontrada o 0 para salir: $"
+
 
 
 respuesta db 16,0,78 DUP('$')
@@ -572,6 +572,21 @@ generarNumeroAleatorio ENDP
 
 
 DEFINE_CLEAR_SCREEN
+DEFINE_SCAN_NUM    
+END  
+
+
+       
+
+
+
+
+
+       
+
+
+
+CREEN
 DEFINE_SCAN_NUM    
 END  
 
