@@ -139,6 +139,9 @@ pedirPalabra macro listaPosiciones,listaPalabras
 
 pedirPalabra1: 
     mostrar msgRespuesta
+    mov ah,09h
+    lea dx,salto
+    int 21h    
     mov ah, 1
     xor si, si
     jmp pedirPalabra2
