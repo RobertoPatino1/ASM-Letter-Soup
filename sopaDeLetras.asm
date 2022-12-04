@@ -105,15 +105,15 @@ vacio db  100 dup(" "),"$"
 ;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO
 ;posicionEquipos1 db ...... TODO
 listaEquipos1 db "INGLATERRA","ECUADOR","QATAR","SENEGAL","HOLANDA",0
-;posEquipos2 db .....TODO
+;posicionEquipos2 db .....TODO
 listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
 
 ;TODO:
 ;-----------AGREGAR LAS OTRAS LISTAS DE PALABRAS CON DISCIPLINAS DEPORTIVAS----------------            
 ;posicionDeportes1 db ...... TODO
-listaEquipos1 db "FUTBOL","NATACION","BASQUETBOL","TENIS","VOLEIBOL",0
-;posDeportes2 db .....TODO
-listaEquipos2 db "KARATE","CICLISMO","RUGBY","ATLETISMO","AJEDREZ",0
+listaDeportes1 db "FUTBOL","NATACION","BASQUETBOL","TENIS","VOLEIBOL",0
+;posicionDeportes2 db .....TODO
+listaDeportes2 db "KARATE","CICLISMO","RUGBY","ATLETISMO","AJEDREZ",0
               
 .code
 ;RUTINA PARA POSICIONAR EL CURSOR Y HACER SALTO DE LINEA
