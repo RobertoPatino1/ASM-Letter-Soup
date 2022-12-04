@@ -527,12 +527,14 @@ iniciarCategoriaDeportes:
 
 
 victoria:
-    ;RUTINA PARA PRESENTAR EL MENSAJE DE VICTORIA
+    ;RUTINA PARA PRESENTAR EL MENSAJE DE VICTORIA 
+    mov linea, 18
     mostrar msgGana
     jmp salir
     
 
 derrota:
+    mov linea, 18
     mostrar msgPierde
     jmp salir
      
