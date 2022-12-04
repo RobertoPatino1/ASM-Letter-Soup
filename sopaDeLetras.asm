@@ -77,9 +77,9 @@ deportes1      db  "A B F Y G C S D H T I",13,10
                db  "A E W B T X U L M H S",13,10
                db  "C T Z I X E E F Y R I",13,10
                db  "I B M H I N N N E R M",13,10
-               db  "O O P V O L E I B O L",13,10
+               db  "O O P A S T E I N O L",13,10
                db  "N L T T X S C Y S U W",13,10
-               db  "E Q O Y S D G V Q D M$",13,10
+               db  "E Q O V O L E I B O L$",13,10
 
 ;MATRIZ DE DEPORTES 2          
 deportes2      db  "I L X O D Z J A K Z Y",13,10
@@ -91,7 +91,7 @@ deportes2      db  "I L X O D Z J A K Z Y",13,10
                db  "D R U G B Y H I C J U",13,10
                db  "G D K L T Z O G S A E",13,10
                db  "M M K V S I V Z A M Q",13,10
-               db  "G S A T L E T I S M O",13,10
+               db  "G A T L E T I S M O O",13,10
                db  "A J E D R E Z L X Y Z$",13,10              
               
 
@@ -139,9 +139,6 @@ pedirPalabra macro listaPosiciones,listaPalabras
 
 pedirPalabra1: 
     mostrar msgRespuesta
-    mov ah,09h
-    lea dx,salto
-    int 21h    
     mov ah, 1
     xor si, si
     jmp pedirPalabra2
@@ -561,7 +558,7 @@ pedirSiguienteEquipos2:
     cmp contador, 5 
     jz victoria
     mov linea, 18
-   pedirPalabra posicionEquipos2,listaEquipos2
+    pedirPalabra posicionEquipos2,listaEquipos2
     jmp palabraIngresadaEquipos2
 
 ;--------------------------
@@ -569,7 +566,7 @@ pedirSiguienteEquipos2:
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS DEPORTES
 
 generarSopaDeportes1:
-    mov checkpoint,1    ;Primera sopa de letras
+    mov checkpoint,3    ;Primera sopa de letras
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion3
@@ -632,7 +629,7 @@ resaltarTenis:
 
 ;Resalta Voleibol    
 resaltarVoleibol:                          
-    resaltar 10,10,6,20,verde   
+    resaltar 12,12,6,20,verde   
     inc palabra5
     jmp pedirSiguienteDeportes1    
  
@@ -652,7 +649,7 @@ pedirSiguienteDeportes1:
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 2 CON LOS DEPORTES
 
 generarSopaDeportes2:
-    mov checkpoint,2    ;Primera sopa de letras
+    mov checkpoint,4    ;Primera sopa de letras
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion3
@@ -693,9 +690,9 @@ resaltarCiclismo:
     resaltar 6,6,10,10,amarillo
     resaltar 7,7,12,12,amarillo
     resaltar 8,8,14,14,amarillo 
-    resaltar 9,8,16,16,amarillo 
-    resaltar 10,8,18,18,amarillo 
-    resaltar 11,8,20,20,amarillo                            
+    resaltar 9,9,16,16,amarillo 
+    resaltar 10,10,18,18,amarillo 
+    resaltar 11,11,20,20,amarillo                             
     inc palabra2
     jmp pedirSiguienteDeportes2
 
@@ -707,7 +704,7 @@ resaltarRugby:
 
 ;Resalta Atletismo    
 resaltarAtletismo:     
-    resaltar 11,11,4,20,cian  
+    resaltar 11,11,2,18,cian  
     inc palabra4
     jmp pedirSiguienteDeportes2
 
@@ -806,7 +803,7 @@ resaltarRespuestasDeportes1:
     resaltar 9,9,12,12,cian 
     resaltar 10,10,14,14,cian 
     resaltar 11,11,16,16,cian
-    resaltar 10,10,6,20,verde 
+    resaltar 12,12,6,20,verde 
     mov linea, 0
     mostrar msgSeleccion3
     inc linea
@@ -821,14 +818,16 @@ resaltarRespuestasDeportes2:
     resaltar 6,6,10,10,amarillo
     resaltar 7,7,12,12,amarillo
     resaltar 8,8,14,14,amarillo 
-    resaltar 9,8,16,16,amarillo 
+    resaltar 9,9,16,16,amarillo 
+    resaltar 10,10,18,18,amarillo 
+    resaltar 11,11,20,20,amarillo   
     resaltar 8,8,2,10,rosa
-    resaltar 11,11,4,20,cian
+    resaltar 11,11,2,18,cian
     resaltar 12,12,0,12,verde
     mov linea, 0
     mostrar msgSeleccion3
     inc linea
-    mostrar deportes1       
+    mostrar deportes2       
     jmp salir  
     
 ;SALIR DEL PROGRAMA
