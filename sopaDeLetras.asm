@@ -569,7 +569,7 @@ pedirSiguienteEquipos2:
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS DEPORTES
 
 generarSopaDeportes1:
-    mov checkpoint,1    ;Primera sopa de letras
+    mov checkpoint,3    
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion3
@@ -652,7 +652,7 @@ pedirSiguienteDeportes1:
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 2 CON LOS DEPORTES
 
 generarSopaDeportes2:
-    mov checkpoint,2    ;Primera sopa de letras
+    mov checkpoint,4    
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion3
@@ -861,6 +861,20 @@ generarNumeroAleatorio ENDP
 
 DEFINE_CLEAR_SCREEN
 DEFINE_SCAN_NUM    
+END  
+
+
+       
+
+
+
+
+
+       
+
+
+
+
 END  
 
 
