@@ -488,12 +488,6 @@ pedirSiguienteEquipos1:
 ;############ HASTA AQUI ############################
 ;#################################################### 
 
-
-
-
-
-
-
 generarSopaMundial2:
     mov checkpoint,2    ;Segunda sopa de letras         ;TODO: REPETIR PARA LAS 2 SOPAS DE LETRAS FALTANTES
     call clear_screen
@@ -567,24 +561,170 @@ pedirSiguienteEquipos2:
    pedirPalabra posicionEquipos2,listaEquipos2
     jmp palabraIngresadaEquipos2
 
+;--------------------------
 
-
-
-
+;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS DEPORTES
 
 generarSopaDeportes1:
-    ;Se genera la primera matriz con los deportes
+    mov checkpoint,1    ;Primera sopa de letras
+    call clear_screen
+    mov linea, 0
+    mostrar msgSeleccion3
+    inc linea
+    mostrar deportes1
+    mov linea, 18
+    pedirPalabra posicionDeportes1,listaDeportes1 
+    jmp palabraIngresadaDeportes1    
+
+
+;Rutina para pintar en la matriz la palabra ingresada
+palabraIngresadaDeportes1:                                 
+    cmp palabra1, 1
+    jz resaltarFutbol
+    cmp palabra2, 1
+    jz resaltarNatacion
+    cmp palabra3, 1
+    jz resaltarBasquetbol
+    cmp palabra4, 1
+    jz resaltarTenis
+    cmp palabra5, 1
+    jz resaltarVoleibol
+    jnz pedirSiguienteDeportes1
     
-    jmp iniciarCategoriaDeportes
+;-------------------------------------------------------
+;Rutinas para resaltar de forma individual las palabras
+;-------------------------------------------------------  
+;Resalta Futbol
+resaltarFutbol:
+    resaltar 2,2,4,4,rojo   
+    resaltar 3,3,6,6,rojo
+    resaltar 4,4,8,8,rojo
+    resaltar 5,5,10,10,rojo
+    resaltar 6,6,12,12,rojo  
+    resaltar 7,7,14,14,rojo
+    inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
+    jmp pedirSiguienteDeportes1
+
+;Resalta Natacion    
+resaltarNatacion:
+    resaltar 4,10,0,0,amarillo                             
+    inc palabra2
+    jmp pedirSiguienteDeportes1
+
+;Resalta Basquetbol    
+resaltarBasquetbol:      
+    resaltar 2,10,2,2,rosa                              
+    inc palabra3
+    jmp pedirSiguienteDeportes1
+
+;Resalta Tenis    
+resaltarTenis:     
+    resaltar 7,7,8,8,cian 
+    resaltar 8,8,10,10,cian 
+    resaltar 9,9,12,12,cian 
+    resaltar 10,10,14,14,cian 
+    resaltar 11,11,16,16,cian  
+    inc palabra4
+    jmp pedirSiguienteDeportes1
+
+;Resalta Voleibol    
+resaltarVoleibol:                          
+    resaltar 10,10,6,20,verde   
+    inc palabra5
+    jmp pedirSiguienteDeportes1    
+ 
+;Rutina para pedir la palabra siguiente  
+pedirSiguienteDeportes1:                                   
+    mov linea, 0
+    mostrar msgSeleccion3
+    inc linea
+    mostrar deportes1 
+    cmp contador, 5 
+    jz victoria
+    mov linea, 18
+    pedirPalabra posicionDeportes1,listaDeportes1
+    jmp palabraIngresadaDeportes1
+
+;--------------------------              
+;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 2 CON LOS DEPORTES
 
 generarSopaDeportes2:
-    ;Se genera la segunda matriz con los deportes
+    mov checkpoint,2    ;Primera sopa de letras
+    call clear_screen
+    mov linea, 0
+    mostrar msgSeleccion3
+    inc linea
+    mostrar deportes2
+    mov linea, 18
+    pedirPalabra posicionDeportes2,listaDeportes2 
+    jmp palabraIngresadaDeportes2    
+
+
+;Rutina para pintar en la matriz la palabra ingresada
+palabraIngresadaDeportes2:                                 
+    cmp palabra1, 1
+    jz resaltarKarate
+    cmp palabra2, 1
+    jz resaltarCiclismo
+    cmp palabra3, 1
+    jz resaltarRugby
+    cmp palabra4, 1
+    jz resaltarAtletismo
+    cmp palabra5, 1
+    jz resaltarAjedrez
+    jnz pedirSiguienteDeportes2
     
-    jmp iniciarCategoriaDeportes
+;-------------------------------------------------------
+;Rutinas para resaltar de forma individual las palabras
+;-------------------------------------------------------  
+;Resalta Karate
+resaltarKarate:
+    resaltar 2,7,16,16,rojo 
+    inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
+    jmp pedirSiguienteDeportes2
+
+;Resalta Ciclismo    
+resaltarCiclismo:
+    resaltar 4,4,6,6,amarillo   
+    resaltar 5,5,8,8,amarillo
+    resaltar 6,6,10,10,amarillo
+    resaltar 7,7,12,12,amarillo
+    resaltar 8,8,14,14,amarillo 
+    resaltar 9,8,16,16,amarillo 
+    resaltar 10,8,18,18,amarillo 
+    resaltar 11,8,20,20,amarillo                            
+    inc palabra2
+    jmp pedirSiguienteDeportes2
+
+;Resalta Rugby    
+resaltarRugby:      
+    resaltar 8,8,2,10,rosa                                
+    inc palabra3
+    jmp pedirSiguienteDeportes2
+
+;Resalta Atletismo    
+resaltarAtletismo:     
+    resaltar 11,11,4,20,cian  
+    inc palabra4
+    jmp pedirSiguienteDeportes2
+
+;Resalta Ajedrez    
+resaltarAjedrez:                          
+    resaltar 12,12,0,12,verde   
+    inc palabra5
+    jmp pedirSiguienteDeportes2    
  
-              
-              
-              
+;Rutina para pedir la palabra siguiente  
+pedirSiguienteDeportes2:                                   
+    mov linea, 0
+    mostrar msgSeleccion3
+    inc linea
+    mostrar deportes2 
+    cmp contador, 5 
+    jz victoria
+    mov linea, 18
+    pedirPalabra posicionDeportes2,listaDeportes2
+    jmp palabraIngresadaDeportes2              
 
 
 
@@ -649,16 +789,44 @@ resaltarRespuestasEquipos2:
     jmp salir 
 
 ;Respuestas de la primera sopa de letras de deportes 
-resaltarRespuestasDeportes1:
- 
+resaltarRespuestasDeportes1:    
+    resaltar 2,2,4,4,rojo   
+    resaltar 3,3,6,6,rojo
+    resaltar 4,4,8,8,rojo
+    resaltar 5,5,10,10,rojo
+    resaltar 6,6,12,12,rojo  
+    resaltar 7,7,14,14,rojo
+    resaltar 4,10,0,0,amarillo
+    resaltar 2,10,2,2,rosa
+    resaltar 7,7,8,8,cian 
+    resaltar 8,8,10,10,cian 
+    resaltar 9,9,12,12,cian 
+    resaltar 10,10,14,14,cian 
+    resaltar 11,11,16,16,cian
+    resaltar 10,10,6,20,verde 
+    mov linea, 0
+    mostrar msgSeleccion3
+    inc linea
+    mostrar deportes1       
+    jmp salir 
  
 ;Respuestas de la segunda sopa de letras de equipos 
 resaltarRespuestasDeportes2:
-
-
-
-
-    
+    resaltar 2,7,16,16,rojo
+    resaltar 4,4,6,6,amarillo   
+    resaltar 5,5,8,8,amarillo
+    resaltar 6,6,10,10,amarillo
+    resaltar 7,7,12,12,amarillo
+    resaltar 8,8,14,14,amarillo 
+    resaltar 9,8,16,16,amarillo 
+    resaltar 8,8,2,10,rosa
+    resaltar 11,11,4,20,cian
+    resaltar 12,12,0,12,verde
+    mov linea, 0
+    mostrar msgSeleccion3
+    inc linea
+    mostrar deportes1       
+    jmp salir  
     
 ;SALIR DEL PROGRAMA
 salir:
