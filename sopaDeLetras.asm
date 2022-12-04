@@ -479,7 +479,7 @@ pedirSiguienteEquipos1:
     cmp contador, 5 
     jz victoria
     mov linea, 18
-   pedirPalabra posicionEquipos1,listaEquipos1
+    pedirPalabra posicionEquipos1,listaEquipos1
     jmp palabraIngresadaEquipos1
     
 ;####################################################
@@ -523,13 +523,13 @@ palabraIngresadaEquipos2:
 resaltarCanada:
     resaltar 2,2,2,11,rojo
     inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
-    jmp pedirSiguienteEquipos1
+    jmp pedirSiguienteEquipos2
 
 ;Resalta Portugal    
 resaltarPortugal:
     resaltar 3,3,5,11,amarillo                              
     inc palabra2
-    jmp pedirSiguienteEquipos1
+    jmp pedirSiguienteEquipos2
 
 ;Resalta Iran    
 resaltarIran:                               
@@ -601,8 +601,34 @@ victoria:
 derrota:
     mov linea, 18
     mostrar msgPierde
+    jmp resaltarRespuestas
+               
+;RUTINAS PARA RESALTAR TODAS LAS RESPUESTAS EN CASO DE QUE EL USUARIO SE RINDA               
+resaltarRespuestasEquipos1:
+    
+
+resaltarRespuestasEquipos2:
+
+resaltarRespuestasDeportes1:
+
+resaltarRespuestasDeportes2:
+
+
+resaltarRespuestas:
+
+    ;mostrar equipos1
+    resaltar 2,2,0,18,rojo   
+    resaltar 3,3,6,18,amarillo
+    resaltar 7,7,12,20,rosa
+    resaltar 8,8,0,12,cian
+    resaltar 9,9,4,15,verde 
+    mov linea, 0
+    mostrar msgSeleccion2
+    inc linea
+    mostrar equipos1       
     jmp salir
-     
+    
+    
 ;SALIR DEL PROGRAMA
 salir:
     mov ah,00h
