@@ -422,7 +422,7 @@ generarSopaMundial1:
     mostrar equipos1
     mov linea, 18
     pedirPalabra posicionEquipos1,listaEquipos1
-    jmp pedirSiguienteEquipos1    
+    jmp palabraIngresadaEquipos1    
 
 
 ;Rutina para pintar en la matriz la palabra ingresada
@@ -503,7 +503,7 @@ generarSopaMundial2:
     mostrar equipos2
     mov linea, 18
     pedirPalabra posicionEquipos2,listaEquipos2
-    jmp pedirSiguienteEquipos2 
+    jmp palabraIngresadaEquipos2 
     
 ;Rutina para pintar en la matriz la palabra ingresada
 palabraIngresadaEquipos2:                                 
