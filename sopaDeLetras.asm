@@ -28,7 +28,7 @@ palabra2 db ?
 palabra3 db ?
 palabra4 db ?
 palabra5 db ? 
-
+;palabra         db  "Ingrese una palabra encontrada o 0 para salir: $"
 
 
 respuesta db 16,0,78 DUP('$')
@@ -137,7 +137,7 @@ pedirPalabra macro listaPosiciones,listaPalabras
     
 
 pedirPalabra1: 
-    mostrar palabra
+    mostrar msgRespuesta
     mov ah, 1
     xor si, si
     jmp pedirPalabra2
@@ -146,7 +146,7 @@ pedirPalabra1:
 pedirPalabra2:
     int 21h                                      
     cmp al, 48
-    jz rindo
+    jz derrota
     cmp al, 13
     jz comprobarPalabra
     mov palabraI[si], al
@@ -415,7 +415,7 @@ generarSopaMundial1:
     inc linea
     mostrar equipos1
     mov linea, 18
-    ;pedirPalabra posicionEquipos1,listaEquipos1
+    pedirPalabra posicionEquipos1,listaEquipos1
     jmp pedirSiguienteEquipos1    
     jmp iniciarCategoriaMundial
 
