@@ -110,7 +110,7 @@ vacio db  100 dup(" "),"$"
 ;posicionEquipos1 db 0,4,10,11,12,13
 posicionEquipos1 db 0,4,10,14,22,32
 listaEquipos1 db "INGLATERRA","ECUADOR","QATAR","SENEGAL","HOLANDA",0
-;posicionEquipos2 db .....TODO
+posicionEquipos2 db 0,4,10,14,22,32 ;TODO: ACTUALIZAR ESTOS VALORES
 listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
 
 ;TODO:
@@ -421,7 +421,6 @@ generarSopaMundial1:
     mov linea, 18
     pedirPalabra posicionEquipos1,listaEquipos1
     jmp pedirSiguienteEquipos1    
-    jmp iniciarCategoriaMundial
 
 
 ;Rutina para pintar en la matriz la palabra ingresada
@@ -441,7 +440,7 @@ palabraIngresadaEquipos1:
 ;-------------------------------------------------------
 ;Rutinas para resaltar de forma individual las palabras
 ;-------------------------------------------------------  
-;Resalta inglaterra
+;Resalta Inglaterra
 resaltarInglaterra:
     resaltar 2,2,2,11,rojo
     inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
@@ -494,9 +493,77 @@ pedirSiguienteEquipos1:
 
 
 generarSopaMundial2: 
-    ;Se genera la segunda matriz con los equipos del mundial
+    call clear_screen
+    mov linea, 0
+    mostrar msgSeleccion2
+    inc linea
+    mostrar equipos2
+    mov linea, 18
+    pedirPalabra posicionEquipos2,listaEquipos2
+    jmp pedirSiguienteEquipos2 
     
-    jmp iniciarCategoriaMundial
+;Rutina para pintar en la matriz la palabra ingresada
+palabraIngresadaEquipos2:                                 
+    cmp palabra1, 1
+    jz resaltarCanada
+    cmp palabra2, 1
+    jz resaltarPortugal
+    cmp palabra3, 1
+    jz resaltarIran
+    cmp palabra4, 1
+    jz resaltarBelgica
+    cmp palabra5, 1
+    jz resaltarArgentina
+    jnz pedirSiguienteEquipos2       
+
+;-------------------------------------------------------
+;Rutinas para resaltar de forma individual las palabras
+;-------------------------------------------------------  
+;Resalta Canada
+resaltarCanada:
+    resaltar 2,2,2,11,rojo
+    inc palabra1    ;Incrementa en 1 el valor de la variable palabra1
+    jmp pedirSiguienteEquipos1
+
+;Resalta Portugal    
+resaltarPortugal:
+    resaltar 3,3,5,11,amarillo                              
+    inc palabra2
+    jmp pedirSiguienteEquipos1
+
+;Resalta Iran    
+resaltarIran:                               
+    ;pintar 6,9,26,26,rosa      
+    inc palabra3
+    jmp pedirSiguienteEquipos2
+
+;Resalta Belgica    
+resaltarBelgica:                           
+    ;pintar 15,15,6,20,cian     
+    inc palabra4
+    jmp pedirSiguienteEquipos2
+
+;Resalta Argentina    
+resaltarArgentina:                          
+    ;pintar 5,14,2,2,amarillo   
+    inc palabra5
+    jmp pedirSiguienteEquipos2    
+ 
+;Rutina para pedir la palabra siguiente  
+pedirSiguienteEquipos2:                                   
+    mov linea, 0
+    mostrar msgSeleccion2
+    inc linea
+    mostrar equipos2 
+    cmp contador, 5 
+    jz victoria
+    mov linea, 18
+   pedirPalabra posicionEquipos2,listaEquipos2
+    jmp palabraIngresadaEquipos2
+
+
+
+
 
 
 generarSopaDeportes1:
@@ -512,15 +579,7 @@ generarSopaDeportes2:
               
               
               
-;TODO: Agregar validaciones extras para ver si el usuario ingresa una palabra correcta            
-iniciarCategoriaMundial:
-    ;LIMPIEZA DE LA CONSOLA
-    
-    ;----------------------  
 
-
-   
-    ;jmp ingresoRespuesta
 
 
 
