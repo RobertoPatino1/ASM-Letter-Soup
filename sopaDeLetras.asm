@@ -99,7 +99,7 @@ rosado db  011010000b
 
 ;VARIABLES PARA VALIDAR PALABRAS              
 palabraI db  20 dup("$")
-palabraM db  20 dup("$")
+palabraMayuscula db  20 dup("$")    ;Para guardar palabras convertidas a mayusculas
 vacio db  100 dup(" "),"$"  
 
 ;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO
@@ -124,6 +124,160 @@ mostrar macro var
     mov ah, 09h
     lea dx, var
     int 21h   
+endm 
+
+;RUTINA PARA PEDIR EL INGRESO DE LA PALABRA POR TECLADO
+pedirPalabra macro listaPosiciones,listaPalabras      
+    LOCAL pedirPalabra1,pedirPalabra2,esMayuscula,esMinuscula,comprobarPalabra,iguales1,iguales2,iguales3,iguales4,iguales5,noIguales,limpiar,limpiarn
+    
+
+pedirPalabra1: 
+    mostrar palabra
+    mov ah, 1
+    xor si, si
+    jmp pedirPalabra2
+
+;Rutina para verificar si el caracter es mayuscula, minuscula, enter o 0
+pedirPalabra2:
+    int 21h                                      
+    cmp al, 48
+    jz rindo
+    cmp al, 13
+    jz comprobarPalabra
+    mov palabraI[si], al
+    cmp al, 91
+    jnb esMinuscula
+    jb esMayuscula
+
+;RUTINA PARA GUARDAR LAS PALABRAS ESCRITAS EN MAYUSCULA     
+esMayuscula: 
+    mov palabraMayuscula[si], al                          
+    inc si
+    jmp pedirPalabra2
+
+;RUTINA PARA GUARDAR LAS PALABRAS ESCRITAS EN MINUSCULAS CONVERTIDAS A MAYUSCULAS    
+esMinuscula:
+    sub al, 32
+    mov palabraMayuscula[si], al                          
+    inc si
+    jmp pedirPalabra2 
+
+;RUTINA PARA COMPROBAR SI LA PALABRA INGRESADA ES IGUAL A ALGUNA DE LAS 5 PALABRAS EN LA SOPA DE LETRAS
+comprobarPalabra:                                
+    xor si, si
+    mov bh, 0
+    mov bl, listaPosiciones[0]
+    lea si, listaPalabras[bx]
+    lea di, palabraMayuscula 
+    mov ah, 0
+    mov al, listaPosiciones[1]
+    sub al, bl
+    mov cx, ax
+    repe cmpsb 
+    je iguales1
+    xor si, si
+    mov bh, 0
+    mov bl, listaPosiciones[1]
+    lea si, listaPalabras[bx]
+    lea di, palabraMayuscula 
+    mov ah, 0
+    mov al, listaPosiciones[2]
+    sub al, bl
+    mov cx, ax
+    repe cmpsb 
+    je iguales2 
+    xor si, si
+    mov bh, 0
+    mov bl, listaPosiciones[2]
+    lea si, listaPalabras[bx]
+    lea di, palabraMayuscula 
+    mov ah, 0
+    mov al, listaPosiciones[3]
+    sub al, bl
+    mov cx, ax
+    repe cmpsb 
+    je iguales3
+    xor si, si
+    mov bh, 0
+    mov bl, listaPosiciones[3]
+    lea si, listaPalabras[bx]
+    lea di, palabraMayuscula 
+    mov ah, 0
+    mov al, listaPosiciones[4]
+    sub al, bl
+    mov cx, ax
+    repe cmpsb 
+    je iguales4
+    xor si, si
+    mov bh, 0
+    mov bl, listaPosiciones[4]
+    lea si, listaPalabras[bx]
+    lea di, palabraMayuscula 
+    mov ah, 0
+    mov al, listaPosiciones[5]
+    sub al, bl
+    mov cx, ax
+    repe cmpsb 
+    je iguales5
+    jne limpiarn
+
+;RUTINA PARA COMPROBAR SI LA PALABRA INGRESADA CORRESPONDE A LA PRIMERA PALABRA DE LA LISTA 
+iguales1:
+    cmp palabra1, 1
+    jz limpiar
+    inc palabra1
+    inc contador
+    jnz limpiar
+;RUTINA PARA COMPROBAR SI LA PALABRA INGRESADA CORRESPONDE A LA SEGUNDA PALABRA DE LA LISTA    
+iguales2:
+    cmp palabra2, 1
+    jz limpiar
+    inc palabra2
+    inc contador
+    jnz limpiar
+;RUTINA PARA COMPROBAR SI LA PALABRA INGRESADA CORRESPONDE A LA TERCERA PALABRA DE LA LISTA    
+iguales3:          
+    cmp palabra3, 1
+    jz limpiar
+    inc palabra3
+    inc contador
+    jmp limpiar
+;RUTINA PARA COMPROBAR SI LA PALABRA INGRESADA CORRESPONDE A LA CUARTA PALABRA DE LA LISTA    
+iguales4:
+    cmp palabra4, 1
+    jz limpiar
+    inc palabra4
+    inc contador
+    jmp limpiar
+;RUTINA PARA COMPROBAR SI LA PALABRA INGRESADA CORRESPONDE A LA QUINTA PALABRA DE LA LISTA    
+iguales5:
+    cmp palabra5, 1
+    jz limpiar
+    inc palabra5
+    inc contador
+    jmp limpiar
+    
+limpiarn:  
+    mov di, offset palabraMayuscula
+    mov cx, 19
+    repe movsb
+    mov di, offset palabraI
+    mov cx, 19
+    repe movsb 
+    dec linea
+    mostrar vacio
+    dec linea
+    jmp pedirPalabra1    
+    
+limpiar: 
+    mov di, offset palabraMayuscula
+    mov cx, 19
+    repe movsb
+    mov di, offset palabraI
+    mov cx, 19
+    repe movsb 
+    dec linea
+    mostrar vacio   
 endm 
 
 
