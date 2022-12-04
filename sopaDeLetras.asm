@@ -26,7 +26,7 @@ randomNumber db ?
 ;MATRIZ DE EQUIPOS 1
 equipos1      db  "I N G L A T E R R A C",13,10
               db  "E G D E C U A D O R U",13,10
-              db  "K G L W X R A D L G G"13,10
+              db  "K G L W X R A D L G G",13,10
               db  "M Y M H A V Q Z Q Y Z",13,10
               db  "S Q C H M Z J R Z T T",13,10
               db  "Y N T W U N Q A T A R",13,10
@@ -266,7 +266,7 @@ generarNumeroAleatorio ENDP
 
 
 
- midnight      
+midnight      
    mov  ax, dx
    xor  dx, dx
    mov  cx, 2    
