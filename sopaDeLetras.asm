@@ -2,6 +2,7 @@ name "Sopa de letras"
 .model small
 .data
 seleccionCategoria db ?
+linea db ?
 msgInicio db '-----Bienvenido al juego: Sopa de letras----- $'
 msgSeleccion1 db 'Selecciona el numero de una categoria para generar la sopa de letras: $'
 msgSeleccion2 db '1. Equipos clasificados al mundial de futbol 2022 $'
@@ -11,8 +12,19 @@ msgSeleccion4 db 'Ingresa una opcion: $'
 msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingresar una opcion nuevamente. '
 
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
-msgContinuar db 'Deseas continuar jugando? (1=Si/0=No) $'
-msgRespuesta db 'Ingresa tu respuesta: $'
+msgRespuesta db "Ingresa una palabra encontrada o 0 para salir: $"
+msgPierde db "Fin del juego, mejor suerte para la proxima :($"
+msgGana db "Felicidades! Has encontrado todas las palabras!$"
+contador db ?                                                
+;VARIABLES QUE ALMACENARAN LAS PALABRAS QUE VAYA ENCONTRANDO EL USUARIO
+palabra1 db ?
+palabra2 db ?
+palabra3 db ?
+palabra4 db ?
+palabra5 db ? 
+
+
+
 respuesta db 16,0,78 DUP('$')
 
 randomNumber db ?
@@ -48,13 +60,37 @@ equipos2      db  "K J R A Q Z V Q U O W",13,10
               db  "I D K E L J C I S A F",13,10
               db  "L A C R S E A A U S J$",13,10 
               
-              
-              
-              
+;VARIABLES DE COLORES PARA IR PINTANDO LA SOPA DE LETRAS
+verde db  010100000b
+rojo db  011000000b
+amarillo db  011100000b
+cian db  010110000b
+rosado db  011010000b              
+
+;VARIABLES PARA VALIDAR PALABRAS              
+palabraI db  20 dup("$")
+palabraM db  20 dup("$")
+vacio db  100 dup(" "),"$"  
+
+;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO
+;posicionEquipos1 db ...... TODO
+listaEquipos1 db "INGLATERRA","ECUADOR","QATAR","SENEGAL","HOLANDA",0
+;posEquipos2 db .....TODO
+listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
+
+;TODO:
+;-----------AGREGAR LAS OTRAS LISTAS DE PALABRAS CON DISCIPLINAS DEPORTIVAS----------------            
               
 .code
-.start
-mov cx,0000h
+;RUTINA PARA POSICIONAR EL CURSOR Y HACER SALTO DE LINEA
+mostrar macro var         
+    mov ax, 0h
+    GOTOXY 0, linea 
+    inc linea   
+    mov ah, 09h
+    lea dx, var
+    int 21h   
+endm 
 
 
 ;EL OBJETIVO DE ESTA ETIQUETA ES PRESENTAR LOS MENSAJES INICIALES AL USUARIO
@@ -266,15 +302,6 @@ generarNumeroAleatorio ENDP
 
 
 
-midnight      
-   mov  ax, dx
-   xor  dx, dx
-   mov  cx, 2    
-   div  cx       ; dx contiene el numero aleatorio entre 0 y 1
-   cmp dx,0
-   mov randomNumber,dl
- ret
-generarNumeroAleatorio ENDP          
 
 
        
