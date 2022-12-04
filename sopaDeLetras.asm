@@ -294,7 +294,17 @@ endm
  
 
 
+.start
 
+;Inicializacion de las variables
+mov linea, 0
+mov contador, 0
+mov palabra1, 0
+mov palabra2, 0
+mov palabra3, 0
+mov palabra4, 0
+mov palabra5, 0
+jmp iniciarJuego 
 
 
 
@@ -392,11 +402,38 @@ generarNumeroAleatorioDeportes:
 
 
 
- 
+;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS EQUIPOS DEL MUNDIAL 
 generarSopaMundial1:
-    ;Se genera la primera matriz con los equipos del mundial
-    
+    call limpiarPantalla
+    mov linea, 0
+    mostrar equipos1
+    inc linea
+    mostrar msgSeleccion2
+    mov linea, 18
+    pedirPalabra posicionEquipos1,listaEquipos1
+    jmp palabra_a1    
     jmp iniciarCategoriaMundial
+
+
+;Rutina para pintar en la matriz la palabra ingresada
+palabra_a1:                                 
+    cmp palabra1, 1
+    jz resaltarInglaterra
+    cmp palabra2, 1
+    jz resaltarEcuador
+    cmp palabra3, 1
+    jz resaltarQatar
+    cmp palabra4, 1
+    jz resaltarSenegal
+    cmp palabra5, 1
+    jz resaltarHolanda
+    jnz pedir_a1
+
+
+
+
+
+
 
 
 generarSopaMundial2: 
@@ -421,7 +458,7 @@ generarSopaDeportes2:
 ;TODO: Agregar validaciones extras para ver si el usuario ingresa una palabra correcta            
 iniciarCategoriaMundial:
     ;LIMPIEZA DE LA CONSOLA
-    call limpiarPantalla
+    
     ;----------------------  
 
 
@@ -495,21 +532,6 @@ generarNumeroAleatorio PROC
    mov randomNumber,dl
  ret
 generarNumeroAleatorio ENDP
-
-
-
-
-       
-
-
-
-
-
-       
-
-
-
-DP
 
 
 
