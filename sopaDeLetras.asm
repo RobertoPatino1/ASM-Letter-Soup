@@ -19,7 +19,39 @@ randomNumber db ?
 ;TODO:
 ;Agregar variables para otros mensajes y captura de datos ingresados por el usuario
 
+;------------------------------------------------------------
+;------DECLARACION DE MATRICES PARA LAS SOPAS DE LETRAS------
+;------------------------------------------------------------
 
+;MATRIZ DE EQUIPOS 1
+equipos1      db  "I N G L A T E R R A C",13,10
+              db  "E G D E C U A D O R U",13,10
+              db  "K G L W X R A D L G G"13,10
+              db  "M Y M H A V Q Z Q Y Z",13,10
+              db  "S Q C H M Z J R Z T T",13,10
+              db  "Y N T W U N Q A T A R",13,10
+              db  "S E N E G A L X O C O",13,10
+              db  "N B H O L A N D A R X",13,10
+              db  "P K M S K F S E P Y W",13,10
+              db  "C C O E T V W X P O Y",13,10
+              db  "U W Z G C D X J Z F I$",13,10
+              
+equipos2      db  "K J R A Q Z V Q U O W",13,10
+              db  "J U K Z I O A T L A O",13,10
+              db  "N T J X P R L U P R O",13,10
+              db  "B K R C O G A L J G R",13,10
+              db  "W X N S R R B N V E F",13,10
+              db  "O C L X T E E P A N D",13,10
+              db  "Z A N N U V L N Z T K",13,10
+              db  "K N Y R G J G Y A I H",13,10
+              db  "W A X K A Q I F T N N",13,10
+              db  "I D K E L J C I S A F",13,10
+              db  "L A C R S E A A U S J$",13,10 
+              
+              
+              
+              
+              
 .code
 .start
 mov cx,0000h
@@ -224,6 +256,9 @@ generarNumeroAleatorio ENDP
 
 
 
+       
+
+
 
 
 
@@ -231,7 +266,7 @@ generarNumeroAleatorio ENDP
 
 
 
-k ticks since midnight      
+ midnight      
    mov  ax, dx
    xor  dx, dx
    mov  cx, 2    
