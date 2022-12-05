@@ -742,7 +742,8 @@ victoria:
     
 ;RUTINA PARA PRESENTAR EL MENSAJE DE DERROTA EN CASO DE QUE EL USUARIO SE RINDA Y RESALTAR TODAS LAS RESPUESTAS
 derrota:
-    mov linea, 18
+    mov linea, 18 
+    mostrar salto
     mostrar msgPierde
     cmp checkpoint,1
     jz resaltarRespuestasEquipos1
