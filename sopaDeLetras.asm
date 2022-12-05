@@ -123,7 +123,7 @@ posicionDeportes2 db 0,6,14,19,28,35
 listaDeportes2 db "KARATE","CICLISMO","RUGBY","ATLETISMO","AJEDREZ",0
               
 .code
-;RUTINA PARA POSICIONAR EL CURSOR Y HACER SALTO DE LINEA
+;FUNCION PARA POSICIONAR EL CURSOR Y HACER SALTO DE LINEA
 ;Esta mostrara el argumento pasado como parametro por la pantalla
 mostrar macro var         
     mov ax, 0h
@@ -134,7 +134,7 @@ mostrar macro var
     int 21h   
 endm 
 
-;RUTINA PARA PEDIR EL INGRESO DE LA PALABRA POR TECLADO
+;FUNCION PARA PEDIR EL INGRESO DE LA PALABRA POR TECLADO
 pedirPalabra macro listaPosiciones,listaPalabras      
     LOCAL pedirPalabra1,pedirPalabra2,esMayuscula,esMinuscula,comprobarPalabra,iguales1,iguales2,iguales3,iguales4,iguales5,noIguales,limpiar,limpiarn
     
@@ -266,7 +266,7 @@ iguales5:
     inc contador
     jmp limpiar
 
-;RUTINA PARA........................    
+;Rutina para limpiar el ingreso de datos y solicitar nuevamente el ingreso de otra palabra   
 limpiarn:  
     mov di, offset palabraMayuscula
     mov cx, 19
@@ -280,7 +280,7 @@ limpiarn:
     jmp pedirPalabra1    
 
 
-;RUTINA PARA........................    
+;Rutina para limpiar el espacio de ingreso de datos y actualizarlo    
 limpiar: 
     mov di, offset palabraMayuscula
     mov cx, 19
@@ -293,7 +293,7 @@ limpiar:
 endm 
 
 
-;Rutina para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
+;Funcion para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
 resaltar macro filaInicial,filaFinal,columnaInicial,columnaFinal,color                
     mov ah, 06h
     mov bh, color
