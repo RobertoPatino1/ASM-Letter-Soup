@@ -18,7 +18,7 @@ msgSeleccion4 db 'Ingresa una opcion: $'
 msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingresar una opcion nuevamente. '
 
 salto DB 13,10,"$" ;INSTRUCCION DE SALTO DE LINEA
-msgRespuesta db "Ingresa una palabra encontrada o 0 para salir: $"
+msgRespuesta db "Ingresa una palabra encontrada o 0 para rendirte: $"
 msgPierde db "Fin del juego, mejor suerte para la proxima!$"  ;Mensaje en caso de que el usuario se rinda
 msgGana db "Felicidades! Has encontrado todas las palabras!$"   ;Mensaje en caso de que el usuario adivine todas las palabras
 contador db ?                                                
@@ -34,9 +34,8 @@ checkpoint db ? ;Variable que se usara para saber en que sopa de letras se encue
 
 respuesta db 16,0,78 DUP('$')
 
-randomNumber db ?
-;TODO:
-;Agregar variables para otros mensajes y captura de datos ingresados por el usuario
+randomNumber db ?   ;Variable que guardara el numero aleatorio para escoger una sopa de letras
+
 
 ;------------------------------------------------------------
 ;------DECLARACION DE MATRICES PARA LAS SOPAS DE LETRAS------
@@ -54,7 +53,8 @@ equipos1      db  "I N G L A T E R R A C",13,10
               db  "P K M S K F S E P Y W",13,10
               db  "C C O E T V W X P O Y",13,10
               db  "U W Z G C D X J Z F I$",13,10
-              
+
+;MATRIZ DE EQUIPOS 2             
 equipos2      db  "K J R A Q Z V Q U O W",13,10
               db  "J U K Z I O A T L A O",13,10
               db  "N T J X P R L U P R O",13,10
@@ -102,20 +102,21 @@ amarillo db  011100000b
 cian db  010110000b
 rosa db  011010000b             
 
-;VARIABLES PARA VALIDAR PALABRAS              
+;VARIABLES PARA VALIDAR PALABRAS Y PERMITIR QUE EL PROGRAMA NO SEA CASE-SENSITIVE              
 palabraI db  20 dup("$")
-palabraMayuscula db  20 dup("$")    ;Para guardar palabras convertidas a mayusculas
-vacio db  100 dup(" "),"$"  
+palabraMayuscula db  20 dup("$")    
+vacio db  100 dup(" "),"$"                            
 
-;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO
-;posicionEquipos1 db 0,4,10,11,12,13
+;######################################################################
+;VARIABLES CON LAS PALABRAS QUE DEBE HALLAR EL USUARIO Y SUS POSICIONES
+;######################################################################
+;EQUIPOS
 posicionEquipos1 db 0,10,17,22,29,36
 listaEquipos1 db "INGLATERRA","ECUADOR","QATAR","SENEGAL","HOLANDA",0
 posicionEquipos2 db 0,6,14,18,25,34 ;TODO: ACTUALIZAR ESTOS VALORES
 listaEquipos2 db "CANADA","PORTUGAL","IRAN","BELGICA","ARGENTINA",0
 
-;TODO:
-;-----------AGREGAR LAS OTRAS LISTAS DE PALABRAS CON DISCIPLINAS DEPORTIVAS----------------            
+;DEPORTES           
 posicionDeportes1 db 0,6,14,24,29,37
 listaDeportes1 db "FUTBOL","NATACION","BASQUETBOL","TENIS","VOLEIBOL",0
 posicionDeportes2 db 0,6,14,19,28,35
@@ -123,6 +124,7 @@ listaDeportes2 db "KARATE","CICLISMO","RUGBY","ATLETISMO","AJEDREZ",0
               
 .code
 ;RUTINA PARA POSICIONAR EL CURSOR Y HACER SALTO DE LINEA
+;Esta mostrara el argumento pasado como parametro por la pantalla
 mostrar macro var         
     mov ax, 0h
     GOTOXY 0, linea 
@@ -137,13 +139,14 @@ pedirPalabra macro listaPosiciones,listaPalabras
     LOCAL pedirPalabra1,pedirPalabra2,esMayuscula,esMinuscula,comprobarPalabra,iguales1,iguales2,iguales3,iguales4,iguales5,noIguales,limpiar,limpiarn
     
 
+;Rutina que muestra el mensaje solicitando la respuesta
 pedirPalabra1: 
     mostrar msgRespuesta
     mov ah, 1
     xor si, si
     jmp pedirPalabra2
 
-;Rutina para verificar si el caracter es mayuscula, minuscula, enter o 0
+;Rutina que recibe la palabra ingresada por teclado para verificar si los caracteres estan en mayuscula o minuscula
 pedirPalabra2:
     int 21h                                      
     cmp al, 48
@@ -161,7 +164,7 @@ esMayuscula:
     inc si
     jmp pedirPalabra2
 
-;RUTINA PARA GUARDAR LAS PALABRAS ESCRITAS EN MINUSCULAS CONVERTIDAS A MAYUSCULAS    
+;RUTINA PARA CONVERTIR LAS PALABRAS A MAYUSCULAS EN CASO DE SER MINUSCULAS Y GUARDARLAS COMO TAL    
 esMinuscula:
     sub al, 32
     mov palabraMayuscula[si], al                          
@@ -262,7 +265,8 @@ iguales5:
     inc palabra5
     inc contador
     jmp limpiar
-    
+
+;RUTINA PARA........................    
 limpiarn:  
     mov di, offset palabraMayuscula
     mov cx, 19
@@ -274,7 +278,9 @@ limpiarn:
     mostrar vacio
     dec linea
     jmp pedirPalabra1    
-    
+
+
+;RUTINA PARA........................    
 limpiar: 
     mov di, offset palabraMayuscula
     mov cx, 19
@@ -287,7 +293,7 @@ limpiar:
 endm 
 
 
-;"FUNCION" para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
+;Rutina para resaltar la palabra donde se especifica la fila y columna inicial y la fila y columna final junto al color
 resaltar macro filaInicial,filaFinal,columnaInicial,columnaFinal,color                
     mov ah, 06h
     mov bh, color
@@ -355,9 +361,9 @@ ingresoCategoria:   ;Rutina que permite al usuario seleccionar una categoria par
     lea dx,msgSeleccion4
     int 21h
     ;Capturando datos ingresados por el usuario
-    mov ah, 01h         ;funcion para captura de dato
-    int 21h             ;interrupcion para captura de dato (ASCCI), se almacena en al
-    sub al, 30h         ;convertir codigo ASCII capturado al valor ingresado por el usuario
+    mov ah, 01h         
+    int 21h             
+    sub al, 30h         
     mov seleccionCategoria, al
     ;Salto de linea
     mov ah,09h        
@@ -366,8 +372,8 @@ ingresoCategoria:   ;Rutina que permite al usuario seleccionar una categoria par
     jmp validarIngresoCategoria
     
     
-
-validarIngresoCategoria:    ;Rutina que valida que el numero ingresado para la categoria sea valido
+;Rutina para validar que el numero ingresado para la categoria sea un valor permitido (1 o 2)
+validarIngresoCategoria:    
     cmp seleccionCategoria,1
     jz generarNumeroAleatorioFutbol  ;Se selecciono Equipos de Futbol
     
@@ -376,8 +382,9 @@ validarIngresoCategoria:    ;Rutina que valida que el numero ingresado para la c
     
     jnz ingresoCategoriaErroneo ;Se ingreso una opcion no valida
     
-      
-ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalido
+
+;Rutina para manejar un ingreso de categoria invalido      
+ingresoCategoriaErroneo:    
     ;Mensaje de inicio
     call clear_screen
     mov ah,09h
@@ -393,7 +400,7 @@ ingresoCategoriaErroneo:    ;Rutina para manejar un ingreso de categoria invalid
 
  
  
- 
+;Rutina que llama a los procedimientos para generar un numero aleatorio entre 0 y 1 
 ;En estas rutinas, el 0 representa la primera opcion, el 1 la segunda    
 generarNumeroAleatorioFutbol:
    call generarNumeroAleatorio
@@ -407,12 +414,11 @@ generarNumeroAleatorioDeportes:
 
 
 
+;####################################################
+;##### RUTINAS RELACIONADAS A LAS MATRICES ##########
+;####################################################                   
 
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS EQUIPOS DEL MUNDIAL
-
-;####################################################
-;############ DESDE AQUI ############################
-;#################################################### 
 generarSopaMundial1:
     mov checkpoint,1    ;Primera sopa de letras
     call clear_screen
@@ -425,7 +431,7 @@ generarSopaMundial1:
     jmp palabraIngresadaEquipos1    
 
 
-;Rutina para pintar en la matriz la palabra ingresada
+;Rutina para validar la palabra ingresada y en caso de ser alguna de las 5 resaltarla en la matriz
 palabraIngresadaEquipos1:                                 
     cmp palabra1, 1
     jz resaltarInglaterra
@@ -472,7 +478,7 @@ resaltarHolanda:
     inc palabra5
     jmp pedirSiguienteEquipos1    
  
-;Rutina para pedir la palabra siguiente  
+;Rutina para pedir la palabra siguiente a ingresar  
 pedirSiguienteEquipos1:                                   
     mov linea, 0
     mostrar msgSeleccion2
@@ -484,12 +490,10 @@ pedirSiguienteEquipos1:
     pedirPalabra posicionEquipos1,listaEquipos1
     jmp palabraIngresadaEquipos1
     
-;####################################################
-;############ HASTA AQUI ############################
-;#################################################### 
 
+;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 2 CON LOS EQUIPOS DEL MUNDIAL
 generarSopaMundial2:
-    mov checkpoint,2    ;Segunda sopa de letras         ;TODO: REPETIR PARA LAS 2 SOPAS DE LETRAS FALTANTES
+    mov checkpoint,2    ;Segunda sopa de letras         
     call clear_screen
     mov linea, 0
     mostrar msgSeleccion2
@@ -499,7 +503,7 @@ generarSopaMundial2:
     pedirPalabra posicionEquipos2,listaEquipos2
     jmp palabraIngresadaEquipos2 
     
-;Rutina para pintar en la matriz la palabra ingresada
+;Rutina para validar la palabra ingresada y en caso de ser alguna de las 5 resaltarla en la matriz
 palabraIngresadaEquipos2:                                 
     cmp palabra1, 1
     jz resaltarCanada
@@ -561,7 +565,7 @@ pedirSiguienteEquipos2:
     pedirPalabra posicionEquipos2,listaEquipos2
     jmp palabraIngresadaEquipos2
 
-;--------------------------
+
 
 ;RUTINA PARA MOSTRAR POR CONSOLA LA MATRIZ 1 CON LOS DEPORTES
 
@@ -577,7 +581,7 @@ generarSopaDeportes1:
     jmp palabraIngresadaDeportes1    
 
 
-;Rutina para pintar en la matriz la palabra ingresada
+;Rutina para validar la palabra ingresada y en caso de ser alguna de las 5 resaltarla en la matriz
 palabraIngresadaDeportes1:                                 
     cmp palabra1, 1
     jz resaltarFutbol
@@ -619,8 +623,8 @@ resaltarBasquetbol:
 
 ;Resalta Tenis    
 resaltarTenis:     
-    resaltar 7,7,8,8,cian 
-    resaltar 8,8,10,10,cian 
+    resaltar 7,7,8,8,cian           
+    resaltar 8,8,10,10,cian         
     resaltar 9,9,12,12,cian 
     resaltar 10,10,14,14,cian 
     resaltar 11,11,16,16,cian  
@@ -660,7 +664,7 @@ generarSopaDeportes2:
     jmp palabraIngresadaDeportes2    
 
 
-;Rutina para pintar en la matriz la palabra ingresada
+;Rutina para validar la palabra ingresada y en caso de ser alguna de las 5 resaltarla en la matriz
 palabraIngresadaDeportes2:                                 
     cmp palabra1, 1
     jz resaltarKarate
@@ -729,21 +733,14 @@ pedirSiguienteDeportes2:
 
 
 
-
-iniciarCategoriaDeportes: 
-    ;LIMPIEZA DE LA CONSOLA
-    call clear_screen
-    ;----------------------
-   ; jmp ingresoRespuesta    ;Crear otra rutina para el ingreso de deportes???
-
-
+        
+;RUTINA PARA PRESENTAR EL MENSAJE DE VICTORIA EN CASO DE ADIVINAR LAS 5 PALABRAS
 victoria:
-    ;RUTINA PARA PRESENTAR EL MENSAJE DE VICTORIA 
     mov linea, 18
     mostrar msgGana
     jmp salir
     
-
+;RUTINA PARA PRESENTAR EL MENSAJE DE DERROTA EN CASO DE QUE EL USUARIO SE RINDA Y RESALTAR TODAS LAS RESPUESTAS
 derrota:
     mov linea, 18
     mostrar msgPierde
@@ -755,7 +752,7 @@ derrota:
     jz resaltarRespuestasDeportes1
     cmp checkpoint,4
     jz resaltarRespuestasDeportes2
-    ;jnz salir
+
                
 ;RUTINAS PARA RESALTAR TODAS LAS RESPUESTAS EN CASO DE QUE EL USUARIO SE RINDA
 
