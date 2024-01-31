@@ -1,4 +1,4 @@
-name "Sopa de letras"
+name "Assembly Letter Soup"
 include "emu8086.inc" 
 org 100h
 
@@ -9,11 +9,11 @@ org 100h
 
 seleccionCategoria db ?
 linea db ?
-msgInicio db '-----Bienvenido al juego: Sopa de letras----- $'
-msgSeleccion1 db 'Selecciona el numero de una categoria para generar la sopa de letras: $'
-msgSeleccion2 db '1. Equipos clasificados al mundial de futbol 2022 $'
-msgSeleccion3 db '2. Disciplinas deportivas $'
-msgSeleccion4 db 'Ingresa una opcion: $'
+msgInicio db '-----Welcome to the Assembly Letter Soup----- $'
+msgSeleccion1 db 'Select the number of a category to initialize the letter soup: $'
+msgSeleccion2 db '1. FIFA World Cup 2022 classified teams $'
+msgSeleccion3 db '2. Sports $'
+msgSeleccion4 db 'Please enter your choice: $'
 
 msgErrorCategoria db 'Ha ingresado una opcion no valida, por favor intente ingresar una opcion nuevamente. '
 
